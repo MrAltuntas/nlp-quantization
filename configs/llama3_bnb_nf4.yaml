@@ -1,0 +1,7 @@
+model:
+  path: meta-llama/Llama-3.1-8B
+  display_name: llama-3.1-8b
+  trust_remote_code: false
+quantization:
+  type: bnb_nf4
+  bit_width: 4

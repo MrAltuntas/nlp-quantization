@@ -1,0 +1,7 @@
+model:
+  path: TheBloke/Mistral-7B-v0.3-GPTQ
+  display_name: mistral-7b-v0.3
+  trust_remote_code: false
+quantization:
+  type: gptq
+  bit_width: 4

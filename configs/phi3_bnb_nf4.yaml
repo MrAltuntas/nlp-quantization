@@ -1,0 +1,7 @@
+model:
+  path: microsoft/Phi-3-mini-4k-instruct
+  display_name: phi-3-mini-4k
+  trust_remote_code: true
+quantization:
+  type: bnb_nf4
+  bit_width: 4

@@ -1,0 +1,7 @@
+model:
+  path: hugging-quants/Meta-Llama-3.1-8B-GPTQ-INT4
+  display_name: llama-3.1-8b
+  trust_remote_code: false
+quantization:
+  type: gptq
+  bit_width: 4

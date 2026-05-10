@@ -1,0 +1,7 @@
+model:
+  path: mistralai/Mistral-7B-v0.3
+  display_name: mistral-7b-v0.3
+  trust_remote_code: false
+quantization:
+  type: bnb_nf4
+  bit_width: 4

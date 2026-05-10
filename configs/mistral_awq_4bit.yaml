@@ -1,0 +1,7 @@
+model:
+  path: solidrust/Mistral-7B-v0.3-AWQ
+  display_name: mistral-7b-v0.3
+  trust_remote_code: false
+quantization:
+  type: awq
+  bit_width: 4
