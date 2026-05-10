@@ -12,6 +12,7 @@ dependencies = [
     "bitsandbytes>=0.43; sys_platform == 'linux'",
     "auto-gptq>=0.7; sys_platform == 'linux'",
     "autoawq>=0.2; sys_platform == 'linux'",
+    "lm-eval>=0.4",
 ]
 
 [project.optional-dependencies]
