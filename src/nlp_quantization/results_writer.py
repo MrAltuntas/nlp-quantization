@@ -1,7 +1,35 @@
 import csv
-import fcntl
+import os
+import time
 from pathlib import Path
 from typing import Any
+
+if os.name == "nt":
+    import msvcrt
+
+    def _lock(f) -> None:
+        f.seek(0)
+        while True:
+            try:
+                msvcrt.locking(f.fileno(), msvcrt.LK_NBLCK, 1)
+                return
+            except OSError:
+                time.sleep(0.05)
+
+    def _unlock(f) -> None:
+        try:
+            f.seek(0)
+            msvcrt.locking(f.fileno(), msvcrt.LK_UNLCK, 1)
+        except OSError:
+            pass
+else:
+    import fcntl
+
+    def _lock(f) -> None:
+        fcntl.flock(f.fileno(), fcntl.LOCK_EX)
+
+    def _unlock(f) -> None:
+        fcntl.flock(f.fileno(), fcntl.LOCK_UN)
 
 CSV_COLUMNS: list[str] = [
     "run_id",
@@ -33,12 +61,14 @@ def append_csv(path: str | Path, row: dict[str, Any]) -> None:
     p = Path(path)
     p.parent.mkdir(parents=True, exist_ok=True)
     needs_header = not p.exists() or p.stat().st_size == 0
-    with open(p, "a", newline="") as f:
-        fcntl.flock(f.fileno(), fcntl.LOCK_EX)
+    with open(p, "a+", newline="") as f:
+        _lock(f)
         try:
+            f.seek(0, os.SEEK_END)
             writer = csv.DictWriter(f, fieldnames=CSV_COLUMNS, extrasaction="ignore")
             if needs_header:
                 writer.writeheader()
             writer.writerow(row)
+            f.flush()
         finally:
-            fcntl.flock(f.fileno(), fcntl.LOCK_UN)
+            _unlock(f)
