@@ -1,5 +1,5 @@
 model:
-  path: TODO/Phi-3-mini-4k-instruct-GPTQ
+  path: shuyuej/Phi-3-mini-4k-instruct-GPTQ
   display_name: phi-3-mini-4k
   trust_remote_code: true
 quantization:
