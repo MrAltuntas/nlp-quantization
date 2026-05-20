@@ -1,20 +1,18 @@
 import torch
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from transformers import AutoModelForCausalLM
 
 from ..config import ExperimentConfig
+from .common import load_model_config, load_tokenizer
 
 
 def load(cfg: ExperimentConfig):
+    model_config = load_model_config(cfg)
     model = AutoModelForCausalLM.from_pretrained(
         cfg.model.path,
+        config=model_config,
         torch_dtype=torch.float16,
         device_map="cuda",
         trust_remote_code=cfg.model.trust_remote_code,
     )
-    tokenizer = AutoTokenizer.from_pretrained(
-        cfg.model.path,
-        trust_remote_code=cfg.model.trust_remote_code,
-    )
-    if tokenizer.pad_token is None:
-        tokenizer.pad_token = tokenizer.eos_token
+    tokenizer = load_tokenizer(cfg)
     return model, tokenizer

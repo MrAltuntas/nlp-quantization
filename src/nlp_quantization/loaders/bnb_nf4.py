@@ -1,10 +1,12 @@
 import torch
-from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
+from transformers import AutoModelForCausalLM, BitsAndBytesConfig
 
 from ..config import ExperimentConfig
+from .common import load_model_config, load_tokenizer
 
 
 def load(cfg: ExperimentConfig):
+    model_config = load_model_config(cfg)
     quant_config = BitsAndBytesConfig(
         load_in_4bit=True,
         bnb_4bit_quant_type="nf4",
@@ -13,14 +15,10 @@ def load(cfg: ExperimentConfig):
     )
     model = AutoModelForCausalLM.from_pretrained(
         cfg.model.path,
+        config=model_config,
         quantization_config=quant_config,
         device_map="cuda",
         trust_remote_code=cfg.model.trust_remote_code,
     )
-    tokenizer = AutoTokenizer.from_pretrained(
-        cfg.model.path,
-        trust_remote_code=cfg.model.trust_remote_code,
-    )
-    if tokenizer.pad_token is None:
-        tokenizer.pad_token = tokenizer.eos_token
+    tokenizer = load_tokenizer(cfg)
     return model, tokenizer

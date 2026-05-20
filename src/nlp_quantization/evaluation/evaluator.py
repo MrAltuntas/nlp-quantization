@@ -17,7 +17,7 @@ def evaluate_model(
     tokenizer: Any,
     run_id: str,
 ) -> dict[str, float | None]:
-    lm = HFLM(pretrained=model, tokenizer=tokenizer, batch_size="auto")
+    lm = HFLM(pretrained=model, tokenizer=tokenizer, batch_size=8)
 
     results: dict[str, float | None] = {}
 

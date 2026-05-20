@@ -41,3 +41,9 @@ def test_config_filename_matches_content(config_path):
         assert cfg.quantization.bit_width == 4
     else:
         pytest.fail(f"unknown config filename pattern: {stem}")
+
+
+def test_phi3_base_configs_use_builtin_transformers_implementation():
+    for name in ["phi3_fp16.yaml", "phi3_bnb_nf4.yaml"]:
+        cfg = load_config(CONFIGS_DIR / name)
+        assert cfg.model.trust_remote_code is False

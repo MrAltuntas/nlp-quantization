@@ -1,5 +1,5 @@
 model:
-  path: TODO/Phi-3-mini-4k-instruct-AWQ
+  path: solidrust/Phi-3-mini-4k-instruct-AWQ
   display_name: phi-3-mini-4k
   trust_remote_code: true
 quantization:
