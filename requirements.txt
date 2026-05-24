@@ -1,0 +1,9 @@
+pydantic
+huggingface-hub
+lm_eval
+torch
+transformers
+accelerate
+gptqmodel
+bitsandbytes>=0.46.1
+torchvision
